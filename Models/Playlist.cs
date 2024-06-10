@@ -11,5 +11,5 @@ public partial class Playlist
 
     public string? Descripcion { get; set; }
 
-    public virtual ICollection<Cancion> Cancion { get; set; } = new List<Cancion>();
+    public virtual ICollection<Cancion> Canciones { get; set; } = new List<Cancion>();
 }

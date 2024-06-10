@@ -19,10 +19,12 @@ public partial class Cancion
     public string? Album { get; set; }
 
     public string? Genero { get; set; }
+
     [Column(TypeName = "time")]
-    public TimeOnly? Duracion { get; set; }
+    public TimeOnly? Duracion { get; set; } = null;
 
     public virtual ICollection<Playlist> Playlists { get; set; } = new List<Playlist>();
+
 }
 
 public partial class CancionInput
@@ -34,4 +36,7 @@ public partial class CancionInput
     public string? Genero { get; set; }
     public int Minutes { get; set; }
     public int Seconds { get; set; }
+
 }
+
+

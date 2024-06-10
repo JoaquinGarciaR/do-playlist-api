@@ -19,8 +19,6 @@ public partial class MusicDbContext : DbContext
 
     public virtual DbSet<Playlist> Playlists { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=MusicDB;Username=postgres;Password=postgres");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -58,9 +56,9 @@ public partial class MusicDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("nombre");
 
-            entity.HasMany(d => d.Cancion).WithMany(p => p.Playlists)
+            entity.HasMany(d => d.Canciones).WithMany(p => p.Playlists)
                 .UsingEntity<Dictionary<string, object>>(
-                    "Playlistcancione",
+                    "Playlistcanciones",
                     r => r.HasOne<Cancion>().WithMany()
                         .HasForeignKey("Cancionid")
                         .OnDelete(DeleteBehavior.ClientSetNull)

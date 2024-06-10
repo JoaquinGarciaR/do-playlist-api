@@ -46,11 +46,20 @@ namespace do_playlist_api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCanciones(int id, CancionInput cancion)
         {
-            Cancion canciones = convertInputToDB(cancion);
+            var canciones = await _context.Canciones.FindAsync(id);
+            // Actualizar solo los campos necesarios
+            canciones.Titulo = cancion.Titulo;
+            canciones.Artista = cancion.Artista;
+            canciones.Album = cancion.Album;
+            canciones.Genero = cancion.Genero;
+            canciones.Duracion = new TimeOnly(0, cancion.Minutes, cancion.Seconds);
+
             if (id != canciones.Cancionid)
             {
                 return BadRequest();
             }
+
+
 
             _context.Entry(canciones).State = EntityState.Modified;
 
@@ -78,8 +87,15 @@ namespace do_playlist_api.Controllers
         [HttpPost]
         public async Task<ActionResult<Cancion>> PostCanciones(CancionInput cancion)
         {
-            
-            Cancion canciones = convertInputToDB(cancion);
+
+            Cancion canciones = new Cancion
+            {
+                Titulo = cancion.Titulo,
+                Artista = cancion.Artista,
+                Album = cancion.Album,
+                Genero = cancion.Genero,
+                Duracion = new TimeOnly(0, cancion.Minutes, cancion.Seconds)
+            };
             Console.WriteLine(cancion);
             Console.WriteLine(canciones);
             _context.Canciones.Add(canciones);
@@ -107,18 +123,6 @@ namespace do_playlist_api.Controllers
         private bool CancionesExists(int id)
         {
             return _context.Canciones.Any(e => e.Cancionid == id);
-        }
-
-        private Cancion convertInputToDB(CancionInput cancion)
-        {
-            Cancion output = new Cancion();
-            output.Cancionid = cancion.Cancionid;
-            output.Titulo = cancion.Titulo; 
-            output.Artista = cancion.Artista;
-            output.Album = cancion.Album;
-            output.Genero = cancion.Genero;
-            output.Duracion = new TimeOnly(0, cancion.Minutes, cancion.Seconds);
-            return output;
         }
     }
 }
