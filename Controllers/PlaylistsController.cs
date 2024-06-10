@@ -155,7 +155,7 @@ namespace do_playlist_api.Controllers
             {
                 playlist.Canciones.Add(existingCancion);
             }
-            if(existingCancion != null)
+            if(existingCancion == null)
             {
                 return NotFound("Canción no encontrada.");
             }
@@ -179,7 +179,7 @@ namespace do_playlist_api.Controllers
 
 
             var cancion = playlist.Canciones.FirstOrDefault(c => c.Cancionid == cancionId);
-            if (cancion == null)
+          
             if (cancion == null)
             {
                 return NotFound("Canción no encontrada en la playlist.");
